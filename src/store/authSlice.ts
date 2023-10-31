@@ -1,0 +1,128 @@
+import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
+import { authReducerType, baseUrl, errorType, responseLoginApi, responsegetUserInfoApi } from '../types/type';
+import axios,{AxiosError} from 'axios';
+import { refreshToken } from '../utils/refreshToken';
+import api from '../utils/axiosModule';
+const refresh = createAsyncThunk('auth/refresh',async(_,{rejectWithValue})=>{
+    try{
+        return (await refreshToken());
+    }catch(e){
+        return rejectWithValue((e as AxiosError).response?.data);
+    }
+});
+const getUserInfo = createAsyncThunk('auth/getUserInfo',async(_,{rejectWithValue})=>{
+    try{
+        const url = baseUrl+'/user/getUserInfo';
+        const {data}:{data:responsegetUserInfoApi} =await api.get(url,{
+            withCredentials:true
+        });
+        return data;
+    }catch(e){
+        return rejectWithValue((e as AxiosError).response?.data);
+    }
+});
+const signup = createAsyncThunk('auth/signup',async({email,password,name,image}:{email:string,password:string,name:string,image:File},{rejectWithValue})=>{
+    try{
+        const url = baseUrl+'/auth/signup';
+        const formData = new FormData();
+        formData.append("email",email);
+        formData.append("password",password);
+        formData.append("name",name);
+        formData.append("image",image);
+        const {data}:{data:responseLoginApi} =await axios.post(url,formData,{
+            withCredentials:true,
+        });
+        return data;
+    }catch(e){
+        return rejectWithValue((e as AxiosError).response?.data);
+    }
+});
+const initialState:authReducerType = {
+    auth:null,
+    user:null,
+    errors:null,
+    signupErrors:null,
+    notifications:0,
+    messages:0,
+}
+const authSlice =  createSlice({
+    name:'auth',
+    initialState,
+    reducers:{
+        refresh:(state)=>{
+            state.auth=true;
+        },
+        addNotification:(state)=>{
+            if(state.user){
+                state.notifications += 1;
+            }
+        },
+        removeNotification:(state)=>{
+            if(state.user){
+                state.notifications -= 1;
+            }
+        },
+        addMessages:(state)=>{
+            if(state.user){
+                state.messages += 1;
+            }
+        },
+        removeMessages:(state)=>{
+            if(state.user){
+                state.messages -= 1;
+            }
+        },
+        makeAuthTrue:(state)=>{
+            state.auth=true;
+        },
+        makeAuthFalse:(state)=>{
+            state.auth=false;
+        },
+    },
+    extraReducers:(builder)=>{
+        // ---------------refresh--------------
+        builder.addCase(refresh.rejected,(state)=>{
+            if(state.auth){
+                state.auth = false;
+                state.errors = null;
+                state.user=null;
+            }
+        });
+        builder.addCase(refresh.fulfilled,(state,action)=>{
+            state.auth=true;
+            state.user = null;
+            state.errors=null;
+            if(action.payload.accessToken){
+                api.defaults.headers.common['Authorization'] = "Bearer "+action.payload.accessToken;
+            }
+        });
+        // ---------------getUserInfo-------------
+        builder.addCase(getUserInfo.rejected,(state)=>{
+            state.user=null;
+        });
+        builder.addCase(getUserInfo.fulfilled,(state,action)=>{
+            if(action.payload.user&&action.payload.status){
+                state.user = action.payload.user;
+                state.notifications=action.payload.user.notifications
+                state.messages=action.payload.user.messages
+            }
+        });
+        // ------------------SignUp------------------
+        builder.addCase(signup.pending,(state)=>{
+            state.auth=null;
+            state.user=null;
+            state.signupErrors=null;
+        });
+        builder.addCase(signup.rejected,(state,action)=>{
+            const payload = (action.payload as {status:boolean,error:errorType[]});
+            if(payload.error){
+                state.signupErrors = payload.error;
+            }
+            state.auth = false;
+            state.user=null;
+        });
+    }
+});
+const {reducer:authReducer,actions:{addNotification,removeNotification,addMessages,removeMessages,makeAuthTrue,makeAuthFalse}} = authSlice;
+
+export {authReducer,refresh,getUserInfo,signup,addNotification,removeNotification,addMessages,removeMessages,makeAuthTrue,makeAuthFalse};
