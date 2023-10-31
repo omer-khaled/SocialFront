@@ -11,7 +11,6 @@ export const ChatMessages = lazy(()=>import('./ChatMessages'));
 export const FriendMessage = lazy(()=>import('./FriendMessage'));
 import chatImage from '../../assets/wired-flat-981-consultation-unscreen.gif';
 import { removeMessages } from '../../store/authSlice';
-import Loading from '../Loading';
 function Chats():ReactElement {
     const [friends,setFriends] = useState<friendType[]|null>(null);
     const [chat,setChat] = useState<messageType[]|null>(null);
@@ -108,9 +107,7 @@ function Chats():ReactElement {
                     <LoadingBoundary loading={!chat?true:false}>
                         <ErrorBoundary error={chatError}>
                             {(chat)?
-                                <Suspense fallback={<Loading />}>    
                                     <ChatMessages chat={chat} myId={user.id} friendId={(checked.friendId).toString()}/>
-                                </Suspense>
                             :<></>}
                         </ErrorBoundary>
                     </LoadingBoundary>
