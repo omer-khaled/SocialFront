@@ -85,26 +85,26 @@ function Chats():ReactElement {
         })
     },[checked,user])
   return (
-    <LoadingBoundary loading={(!friends)?true:false}>
-        <ErrorBoundary error={error}>
             <>
                 <aside className='p-2 col-start-1 max-h-[85vh] overflow-auto col-end-5 flex flex-col justify-start bg-white rounded-l-lg'>
-                    <p className='w-full bg-primary p-1 mb-2 text-center text-white rounded text-2xl font-bold'>My Chats</p>
-                    {(friends)&&(friends.length===0)?<p className='text-center text-red-500'>Add new Friends to chat with them</p>:(friends)?.map((el:friendType)=>{
-                        return(
-                            <Suspense fallback={<Loading />}>    
-                                <FriendMessage userId={user.id} checked={checked} clickHandle={()=>{
-                                    setChecked(el);
-                                    dispatch(removeMessages());
-                                }} key={el.friendId} friend={el}/>
-                            </Suspense>
-                        )
-                    })}
+                <p className='w-full bg-primary p-1 mb-2 text-center text-white rounded text-2xl font-bold'>My Chats</p>
+                <LoadingBoundary loading={(!friends)?true:false}>
+                    <ErrorBoundary error={error}>
+                        <>
+                            {(friends)&&(friends.length===0)?<p className='text-center text-red-500'>Add new Friends to chat with them</p>:(friends)?.map((el:friendType)=>{
+                                return(
+                                        <FriendMessage userId={user.id} checked={checked} clickHandle={()=>{
+                                            setChecked(el);
+                                            dispatch(removeMessages());
+                                        }} key={el.friendId} friend={el}/>
+                                )
+                            })}
+                        </>
+                    </ErrorBoundary>
+                </LoadingBoundary>
                 </aside>
                 {(checked)?<section className='col-start-5 h-[85vh] col-end-13 ps-2 bg-slate-200 flex flex-col justify-start items-start'>
-                    <Suspense fallback={<Loading />}>    
-                        <UserCardChat user={checked}/>
-                    </Suspense>
+                    <UserCardChat user={checked}/>
                     <LoadingBoundary loading={!chat?true:false}>
                         <ErrorBoundary error={chatError}>
                             {(chat)?
@@ -119,8 +119,6 @@ function Chats():ReactElement {
                     <p className='text-center font-bold text-lg tracking-wide'>send and recive message wthout keeping your phone online</p>
                 </section>}
             </>
-        </ErrorBoundary>
-    </LoadingBoundary>
   )
 }
 
