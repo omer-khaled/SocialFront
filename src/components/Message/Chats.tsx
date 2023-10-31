@@ -1,4 +1,4 @@
-import {ReactElement,useState,useEffect, lazy,Suspense} from 'react'
+import {ReactElement,useState,useEffect, lazy} from 'react'
 import { baseResponseType, baseUrl, friendType, messageType, userType } from '../../types/type';
 import api from '../../utils/axiosModule';
 import { io } from 'socket.io-client';
