@@ -94,6 +94,7 @@ function Chats():ReactElement {
                                 return(
                                         <FriendMessage userId={user.id} checked={checked} clickHandle={()=>{
                                             setChecked(el);
+                                            setChat(null);
                                             dispatch(removeMessages());
                                         }} key={el.friendId} friend={el}/>
                                 )
