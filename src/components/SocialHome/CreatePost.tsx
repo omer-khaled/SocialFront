@@ -67,7 +67,7 @@ function CreatePost():ReactElement {
   return (
     <>
         <article className='w-full  p-2 py-3 bg-white shadow-md flex rounded mb-3 gap-6'>
-            <img className='rounded-full w-[70px] h-[70px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+user.image} alt={user.name} />
+            <img loading='lazy' className='rounded-full w-[70px] h-[70px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+user.image} alt={user.name} />
             <div onClick={()=>{
                 setOpenCreatePost(true);
                 document.body.classList.add('no-scroll');
@@ -78,7 +78,7 @@ function CreatePost():ReactElement {
         {(openCreatePost)&&<article className='flex  max-h-[100vh] overflow-auto flex-col p-5 justify-start items-center absolute inset-0 bg-[#0000004e] z-50'>
             <div className='bg-white mt-[100px] p-4 w-2/4 rounded-md relative'>
                 <div className='flex justify-start items-start'>
-                    <img className='rounded-full w-[70px] h-[70px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+user.image} alt={user.name} />
+                    <img loading='lazy' className='rounded-full w-[70px] h-[70px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+user.image} alt={user.name} />
                     <span className='my-auto ms-1'>{user.name}</span>
                 </div>
                 <form onSubmit={(e)=>{
@@ -126,7 +126,7 @@ function CreatePost():ReactElement {
                         }}/>
                         {(imageError)&&<p className='m-0 p-0 text-red-500'>{imageError}</p>}
                     </div>
-                    {(image&&!imageError)&&<img src={image} className='mx-auto image-fluid object-contain m-0 p-0 max-h-[50vh]' alt='personal image'/>}                   
+                    {(image&&!imageError)&&<img loading='lazy' src={image} className='mx-auto image-fluid object-contain m-0 p-0 max-h-[50vh]' alt='personal image'/>}                   
                     <button type='submit' className='mt-2 ms-auto block bg-primary text-white'>Publish</button>
                     <div className='absolute top-16 right-0'>
                         {

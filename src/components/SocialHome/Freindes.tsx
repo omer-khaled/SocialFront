@@ -1,19 +1,76 @@
-import {ReactElement,useEffect, useState,lazy} from 'react'
+import {ReactElement,useEffect, useState,lazy, useCallback} from 'react'
 export const ErrorBoundary = lazy(()=>import('../../utils/ErrorBoundary'));
 export const LoadingBoundary = lazy(()=>import('../../utils/LoadingBoundary'));
 import { baseResponseType, baseUrl, friendType, userType } from '../../types/type';
 import { io } from 'socket.io-client';
 import api from '../../utils/axiosModule';
 import { toast } from 'react-toastify';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import { reducerType } from '../../store/store';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import CustomAlert from '../../utils/CustomAlert';
 function Freindes({id}:{id:string}):ReactElement {
   const [friends,setFriends] = useState<friendType[]|null>(null);
   const [error,setError] = useState<boolean>(false);
+  const [openAlert,setOpenAlert] = useState<boolean>(false);
   const Navigate = useNavigate();
   const userDetails:userType = useSelector<reducerType>(state=>state.auth.user) as userType;
+    const handleDelete = useCallback((async(friendId:number)=>{
+        try{
+            const url = baseUrl+`/user/cancelFriend/${friendId}`;
+            const {data}:{data:baseResponseType} = await api.get(url,{
+                withCredentials:true,
+            });
+            if(data.status){
+                setFriends((friends:friendType[]|null)=>{
+                    if(friends){
+                        const filterationRequests = friends.filter((element:friendType)=>{
+                            return element.friendId!==friendId;
+                        });
+                        return filterationRequests;
+                    }
+                    return null;
+                });
+                toast.success('request canceled successfully', {
+                    position: "bottom-left",
+                    autoClose: 200,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                setOpenAlert(false);
+                document.body.classList.remove('no-scroll');
+            }else{
+                setError(true);
+                toast.error('request canceled failed', {
+                    position: "bottom-left",
+                    autoClose: 200,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        }catch(e){
+            setError(true);
+            toast.error('request canceled failed', {
+                position: "bottom-left",
+                autoClose: 200,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }),[]);
   useEffect(()=>{
       let check = true;
       (async()=>{
@@ -70,79 +127,17 @@ function Freindes({id}:{id:string}):ReactElement {
           return(
             <article key={el.friendId} className='w-full px-2 py-1 flex justify-start items-center flex-col'>
               <div className='flex w-full justify-start items-center'>
-                <img onClick={()=>{
+                <img loading='lazy' onClick={()=>{
                     Navigate(`/home/users/${el.friendId}`);
                 }} className='rounded-full cursor-pointer w-[50px] h-[50px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+el.image} alt="personalImage" />
                 <p className='p-0 m-0 ms-1 font-bold text-sm'>{el.name}</p>
                 {((userDetails.id).toString()===id.toString())&&
                 <svg onClick={()=>{
-                    Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                        (async()=>{
-                            try{
-                                const url = baseUrl+`/user/cancelFriend/${el.friendId}`;
-                                const {data}:{data:baseResponseType} = await api.get(url,{
-                                    withCredentials:true,
-                                });
-                                if(data.status){
-                                    setFriends((friends:friendType[]|null)=>{
-                                        if(friends){
-                                            const filterationRequests = friends.filter((element:friendType)=>{
-                                                return element.friendId!==el.friendId;
-                                            });
-                                            return filterationRequests;
-                                        }
-                                        return null;
-                                    });
-                                    toast.success('request canceled successfully', {
-                                        position: "bottom-left",
-                                        autoClose: 200,
-                                        hideProgressBar: false,
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        progress: undefined,
-                                        theme: "light",
-                                    });
-                                }else{
-                                    setError(true);
-                                    toast.error('request canceled failed', {
-                                        position: "bottom-left",
-                                        autoClose: 200,
-                                        hideProgressBar: false,
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        progress: undefined,
-                                        theme: "light",
-                                    });
-                                }
-                            }catch(e){
-                                setError(true);
-                                toast.error('request canceled failed', {
-                                    position: "bottom-left",
-                                    autoClose: 200,
-                                    hideProgressBar: false,
-                                    closeOnClick: true,
-                                    pauseOnHover: true,
-                                    draggable: true,
-                                    progress: undefined,
-                                    theme: "light",
-                                });
-                            }
-                        })()
-                    }
-                  })
+                    setOpenAlert(true);
+                    document.body.classList.add('no-scroll');
                 }} className="cursor-pointer text-xl transition duration-300 ms-auto hover:text-red-500" stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="m15.71 15.71 2.29-2.3 2.29 2.3 1.42-1.42-2.3-2.29 2.3-2.29-1.42-1.42-2.29 2.3-2.29-2.3-1.42 1.42L16.58 12l-2.29 2.29zM12 8a3.91 3.91 0 0 0-4-4 3.91 3.91 0 0 0-4 4 3.91 3.91 0 0 0 4 4 3.91 3.91 0 0 0 4-4zM6 8a1.91 1.91 0 0 1 2-2 1.91 1.91 0 0 1 2 2 1.91 1.91 0 0 1-2 2 1.91 1.91 0 0 1-2-2zM4 18a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v1h2v-1a5 5 0 0 0-5-5H7a5 5 0 0 0-5 5v1h2z"></path></svg>}
               </div>
+              {openAlert&&<CustomAlert callBackFn={handleDelete} setOpenAlert={setOpenAlert} friendId={el.friendId} />}
               <hr className='w-full border-slate-400 mt-3'/>
             </article>
           )

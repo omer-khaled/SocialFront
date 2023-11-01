@@ -1,11 +1,10 @@
-import {ReactElement,useEffect,useState,lazy,Suspense} from 'react'
+import {ReactElement,useEffect,useState,lazy} from 'react'
 export const ErrorBoundary = lazy(()=>import('../../utils/ErrorBoundary'));
 export const LoadingBoundary = lazy(()=>import('../../utils/LoadingBoundary'));
 export const PostCard = lazy(()=>import('../SocialHome/PostCard'));
 import { baseResponseType, baseUrl, postType } from '../../types/type';
 import api from '../../utils/axiosModule';
 import { io } from 'socket.io-client';
-import Loading from '../Loading';
 
 function ProfilePosts({id}:{id:string}):ReactElement {
     const [posts,setPosts] = useState<postType[]|null>(null);
@@ -81,9 +80,7 @@ function ProfilePosts({id}:{id:string}):ReactElement {
             <>
                 {(posts)?((posts.length>0)?<>{posts.map((el:postType)=>{
                     return (
-                        <Suspense fallback={<Loading />}>    
                             <PostCard post={el} showAll={null} key={el.id}/>
-                        </Suspense>
                     )
                 })}</>:<p className='w-full p-2 rounded bg-primary text-white text-center'>No Posts For Now</p>):<></>}
             </>

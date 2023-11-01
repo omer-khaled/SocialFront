@@ -128,7 +128,7 @@ function Likes({postId,setOpenLikes,userId}:{postId:number,userId:string,setOpen
                         {(likes)?<>
                                     <div className='mb-2 flex items-center'>{likes&&likes.length} <span className='ms-1 me-2'>Reactions</span> {
                                         (likeTypes.length>0)&&likeTypes.map((el,index)=>{
-                                            return(<img key={index} className='w-[20px] h-[20px]' src={reactions[el]} alt={el} />);
+                                            return(<img loading='lazy' key={index} className='w-[20px] h-[20px]' src={reactions[el]} alt={el} />);
                                         })
                                     }</div>
                                     <hr className=' border-slate-300'/>
@@ -145,9 +145,9 @@ function Likes({postId,setOpenLikes,userId}:{postId:number,userId:string,setOpen
                                                     }
                                                 }} key={el.id} className={`w-full flex justify-start items-start transition duration-200 cursor-pointer ${(el.userId.toString()===userId.toString())?'hover:bg-slate-200':""}`}>
                                                     <div className='relative'>
-                                                        <img className='w-[60px] h-[60px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+el.userImage} alt="personalImage" />
+                                                        <img loading='lazy'  className='w-[60px] h-[60px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+el.userImage} alt="personalImage" />
                                                         <span className='absolute bottom-0 right-0'>
-                                                            <img className='w-[20px] h-[20px]' src={reactions[`${el.type}`]} alt={el.type} />
+                                                            <img loading='lazy' className='w-[20px] h-[20px]' src={reactions[`${el.type}`]} alt={el.type} />
                                                         </span>
                                                     </div>
                                                     <div className='min-h-[70px] flex justify-start items-start flex-col rounded-md ms-2 rounded-tl-none'>

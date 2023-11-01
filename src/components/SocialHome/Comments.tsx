@@ -54,7 +54,7 @@ function Comments({postId}:{postId:number}):ReactElement {
                             comments.map((el:commentType)=>{
                                 return (
                                     <article key={el.id} className='w-full flex justify-start items-start mt-2'>
-                                        <img className='rounded-full w-[50px] h-[50px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+el.userImage} alt="personalImage" />
+                                        <img loading='lazy' className='rounded-full w-[50px] h-[50px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+el.userImage} alt="personalImage" />
                                         <div className='grow p-1 min-h-[70px] bg-slate-200 flex justify-start items-start flex-col rounded-md ms-2 rounded-tl-none'>
                                             <div className='w-full flex justify-between items-center'>
                                                 <p className='text-lg font-bold'>{el.name}</p>

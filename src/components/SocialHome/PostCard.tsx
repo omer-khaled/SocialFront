@@ -13,12 +13,12 @@ export const Comments = lazy(()=>import('./Comments'));
 export const Likes = lazy(()=>import('./Likes'));
 export const UpdatePost = lazy(()=>import('./UpdatePost'));
 export const CustomLoadingImage = lazy(()=>import('./CustomLoadingImage'));
-import like from '../../assets/reactions/like.ico'
-import love from '../../assets/reactions/love.ico'
-import haha from '../../assets/reactions/haha.ico'
-import sad from '../../assets/reactions/sad.ico'
-import wow from '../../assets/reactions/wow.ico'
-import angry from '../../assets/reactions/angry.ico'
+import like from '../../assets/reactions/like.webp'
+import love from '../../assets/reactions/love.webp'
+import haha from '../../assets/reactions/haha.webp'
+import sad from '../../assets/reactions/sad.webp'
+import wow from '../../assets/reactions/wow.webp'
+import angry from '../../assets/reactions/angry.webp'
 function PostCard({post,showAll}:{post:postType,showAll:boolean|null}):ReactElement {
   const [openComments,setOpenComments] = useState<boolean>((showAll)?true:false);
   const [openUpdatePost,setOpenUpdatePost] = useState<boolean>(false);
@@ -131,7 +131,7 @@ function PostCard({post,showAll}:{post:postType,showAll:boolean|null}):ReactElem
             <div className='flex cursor-pointer justify-start items-start'  onClick={()=>{
                         Navigate(`/users/${post.userId}`);
                     }} >
-                    <img className='rounded-full w-[70px] h-[70px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+post.userImage} alt="personalImage" />
+                    <img loading='lazy' className='rounded-full w-[70px] h-[70px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+post.userImage} alt="personalImage" />
                     <div className='flex flex-col my-auto'>
                         <span className='ms-2 text-lg font-bold'>{post.name}</span>
                         <div className='flex items-center'>
@@ -207,7 +207,7 @@ function PostCard({post,showAll}:{post:postType,showAll:boolean|null}):ReactElem
                             }} />
                         </div>
                         {(userLiked)?<div className={`flex items-center w-full ${(likeType)?`text-${likeType}`:''}`}>
-                            {(likeType)&&<img className='w-[20px] h-[20px] me-1' src={reactions[likeType]} alt={likeType} />}
+                            {(likeType)&&<img loading='lazy' className='w-[20px] h-[20px] me-1' src={reactions[likeType]} alt={likeType} />}
                             <span>{likeType}</span>
                         </div>:<>
                         <svg className="me-1" stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M885.9 533.7c16.8-22.2 26.1-49.4 26.1-77.7 0-44.9-25.1-87.4-65.5-111.1a67.67 67.67 0 0 0-34.3-9.3H572.4l6-122.9c1.4-29.7-9.1-57.9-29.5-79.4A106.62 106.62 0 0 0 471 99.9c-52 0-98 35-111.8 85.1l-85.9 311h-.3v428h472.3c9.2 0 18.2-1.8 26.5-5.4 47.6-20.3 78.3-66.8 78.3-118.4 0-12.6-1.8-25-5.4-37 16.8-22.2 26.1-49.4 26.1-77.7 0-12.6-1.8-25-5.4-37 16.8-22.2 26.1-49.4 26.1-77.7-.2-12.6-2-25.1-5.6-37.1zM112 528v364c0 17.7 14.3 32 32 32h65V496h-65c-17.7 0-32 14.3-32 32z"></path></svg>

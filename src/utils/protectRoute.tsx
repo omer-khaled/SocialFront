@@ -2,7 +2,7 @@ import { ReactElement,useEffect} from "react"
 import UnAuthrized from "../components/UnAuthrized"
 import { useDispatch, useSelector } from 'react-redux';
 import { disptachType, reducerType } from '../store/store';
-import { refresh,getUserInfo } from '../store/authSlice';
+import { refresh } from '../store/authSlice';
 import { userType } from "../types/type";
 const protectRoute = (Oldcomponent:()=>ReactElement)=>{
     const NewComponenet = ():ReactElement=>{
@@ -10,9 +10,7 @@ const protectRoute = (Oldcomponent:()=>ReactElement)=>{
         const dispatch = useDispatch<disptachType>();
         useEffect(()=>{
           if(!auth){
-            dispatch(refresh()).then(()=>{
-              dispatch(getUserInfo());
-            });
+            dispatch(refresh());
           }
         },[auth,dispatch]);
         return(

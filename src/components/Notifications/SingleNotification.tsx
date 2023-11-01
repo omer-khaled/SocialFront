@@ -1,11 +1,11 @@
 import {ReactElement,useMemo, useState} from 'react'
 import { baseResponseType, baseUrl, notificationType } from '../../types/type';
-import like from '../../assets/reactions/like.ico'
-import love from '../../assets/reactions/love.ico'
-import haha from '../../assets/reactions/haha.ico'
-import sad from '../../assets/reactions/sad.ico'
-import wow from '../../assets/reactions/wow.ico'
-import angry from '../../assets/reactions/angry.ico'
+import like from '../../assets/reactions/like.webp'
+import love from '../../assets/reactions/love.webp'
+import haha from '../../assets/reactions/haha.webp'
+import sad from '../../assets/reactions/sad.webp'
+import wow from '../../assets/reactions/wow.webp'
+import angry from '../../assets/reactions/angry.webp'
 import api from '../../utils/axiosModule';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';

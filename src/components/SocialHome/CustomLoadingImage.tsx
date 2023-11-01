@@ -11,7 +11,7 @@ const CustomLoadingImage: React.FC<CustomLoadingImageProps> = ({ src, alt }) => 
       <img
         src={src}
         alt={alt}
-        loading='lazy'
+        // loading='lazy'
       />
     </div>
   );

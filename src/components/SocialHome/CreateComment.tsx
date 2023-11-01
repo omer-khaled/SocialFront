@@ -68,7 +68,7 @@ function CreateComment({postId}:{postId:number}):ReactElement {
                         setopenEmogies(!openEmogies);
                     }} className='absolute top-3 right-2 text-2xl cursor-pointer z-50' stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g id="Face_Smile"><g><path d="M12,21.942A9.942,9.942,0,1,1,21.942,12,9.953,9.953,0,0,1,12,21.942ZM12,3.058A8.942,8.942,0,1,0,20.942,12,8.952,8.952,0,0,0,12,3.058Z"></path><path d="M16.693,13.744a5.041,5.041,0,0,1-9.387,0c-.249-.59-1.111-.081-.863.505a6.026,6.026,0,0,0,11.114,0c.247-.586-.614-1.1-.864-.505Z"></path><circle cx="9" cy="9.011" r="1.25"></circle><circle cx="15" cy="9.011" r="1.25"></circle></g></g></svg>
                     <div className='w-full flex items-center'>
-                        <img className='rounded-full me-2 w-[50px] h-[50px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+user.image} alt={user.name} />
+                        <img loading='lazy' className='rounded-full me-2 w-[50px] h-[50px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+user.image} alt={user.name} />
                         <div className='grow relative'>
                             <input type='text' value={content} onChange={(e:ChangeEvent<HTMLInputElement>)=>{
                                 const value = e.target.value;

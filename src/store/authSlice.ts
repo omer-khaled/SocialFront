@@ -1,19 +1,11 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
 import { authReducerType, baseUrl, errorType, responseLoginApi, responsegetUserInfoApi } from '../types/type';
 import axios,{AxiosError} from 'axios';
-import { refreshToken } from '../utils/refreshToken';
 import api from '../utils/axiosModule';
 const refresh = createAsyncThunk('auth/refresh',async(_,{rejectWithValue})=>{
     try{
-        return (await refreshToken());
-    }catch(e){
-        return rejectWithValue((e as AxiosError).response?.data);
-    }
-});
-const getUserInfo = createAsyncThunk('auth/getUserInfo',async(_,{rejectWithValue})=>{
-    try{
-        const url = baseUrl+'/user/getUserInfo';
-        const {data}:{data:responsegetUserInfoApi} =await api.get(url,{
+        const url = baseUrl+'/auth/refreshGetUseInfo';
+        const {data}:{data:responsegetUserInfoApi&responseLoginApi} =await api.get(url,{
             withCredentials:true
         });
         return data;
@@ -97,12 +89,6 @@ const authSlice =  createSlice({
             if(action.payload.accessToken){
                 api.defaults.headers.common['Authorization'] = "Bearer "+action.payload.accessToken;
             }
-        });
-        // ---------------getUserInfo-------------
-        builder.addCase(getUserInfo.rejected,(state)=>{
-            state.user=null;
-        });
-        builder.addCase(getUserInfo.fulfilled,(state,action)=>{
             if(action.payload.user&&action.payload.status){
                 state.user = action.payload.user;
                 state.notifications=action.payload.user.notifications
@@ -127,4 +113,4 @@ const authSlice =  createSlice({
 });
 const {reducer:authReducer,actions:{addNotification,removeNotification,addMessages,removeMessages,makeAuthTrue,makeAuthFalse}} = authSlice;
 
-export {authReducer,refresh,getUserInfo,signup,addNotification,removeNotification,addMessages,removeMessages,makeAuthTrue,makeAuthFalse};
+export {authReducer,refresh,signup,addNotification,removeNotification,addMessages,removeMessages,makeAuthTrue,makeAuthFalse};

@@ -104,7 +104,7 @@ function UpdatePost({id,setOpenCreatePost}:{id:number,setOpenCreatePost:Dispatch
             <LoadingBoundary loading={(post)?false:true}>
                 {(post)?<div className='bg-white  mt-[100px] p-4 w-2/4 rounded-md relative'>
                     <div className='flex justify-start items-start'>
-                        <img className='rounded-full w-[70px] h-[70px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+user.image} alt={user.name} />
+                        <img loading='lazy' className='rounded-full w-[70px] h-[70px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+user.image} alt={user.name} />
                         <span className='my-auto ms-1'>{user.name}</span>
                     </div>
                     <form onSubmit={(e)=>{
@@ -152,7 +152,7 @@ function UpdatePost({id,setOpenCreatePost}:{id:number,setOpenCreatePost:Dispatch
                             }}/>
                             {(imageError)&&<p className='m-0 p-0 text-red-500'>{imageError}</p>}
                         </div>
-                        {(image&&!imageError)&&<img src={image} className='mx-auto image-fluid object-contain m-0 p-0 max-h-[50vh]' alt='personal image'/>}                   
+                        {(image&&!imageError)&&<img loading='lazy' src={image} className='mx-auto image-fluid object-contain m-0 p-0 max-h-[50vh]' alt='personal image'/>}                   
                         <button type='submit' className='mt-2 ms-auto block bg-primary text-white'>Publish</button>
                         <div className='absolute top-16 right-0'>
                             {
