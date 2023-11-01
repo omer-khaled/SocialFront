@@ -81,6 +81,7 @@ function PostCard({post,showAll}:{post:postType,showAll:boolean|null}):ReactElem
   },[setNumberOfComments,post])
   return (
     <>
+        <span className='text-like text-love text-sad text-wow text-angry'></span>
         <article className='w-full mb-3 p-2 shadow flex flex-col justify-start items-start relative  bg-white rounded'>
             {(user&&(user.id).toString()===(post.userId).toString())&&(<div className='group absolute top-1 right-2 text-md cursor-pointer'>
                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path></svg>
@@ -128,7 +129,7 @@ function PostCard({post,showAll}:{post:postType,showAll:boolean|null}):ReactElem
             </div>)}
             <div className='w-full flex justify-between items-start mb-2'>
             <div className='flex cursor-pointer justify-start items-start'  onClick={()=>{
-                        Navigate(`/home/users/${post.userId}`);
+                        Navigate(`/users/${post.userId}`);
                     }} >
                     <img className='rounded-full w-[70px] h-[70px] object-cover' src={import.meta.env.VITE_BASU_URL_API+'/images/'+post.userImage} alt="personalImage" />
                     <div className='flex flex-col my-auto'>
@@ -205,7 +206,7 @@ function PostCard({post,showAll}:{post:postType,showAll:boolean|null}):ReactElem
                                 })()
                             }} />
                         </div>
-                        {(userLiked)?<div className={`flex items-center w-full  ${(likeType)?`text-${likeType}`:''}`}>
+                        {(userLiked)?<div className={`flex items-center w-full ${(likeType)?`text-${likeType}`:''}`}>
                             {(likeType)&&<img className='w-[20px] h-[20px] me-1' src={reactions[likeType]} alt={likeType} />}
                             <span>{likeType}</span>
                         </div>:<>
@@ -222,7 +223,7 @@ function PostCard({post,showAll}:{post:postType,showAll:boolean|null}):ReactElem
                 <div className='flex items-center w-1/3 p-2 pe-3 cursor-pointer'>
                     <div onClick={
                             ()=>{
-                                window.navigator.clipboard.writeText(`http://localhost:5173/home/posts/${post.id}`).then(()=>{
+                                window.navigator.clipboard.writeText(`http://localhost:5173/posts/${post.id}`).then(()=>{
                                 toast.success(`link copied successfully`,{
                                         position: "bottom-left",
                                         autoClose: 500,

@@ -1,4 +1,5 @@
 import {ReactElement,lazy} from 'react'
+import protectRoute from '../utils/protectRoute';
 export const Posts = lazy(()=>import('../components/SocialHome/Posts'));
 export const CreatePost = lazy(()=>import('../components/SocialHome/CreatePost'));
 export const UserCard = lazy(()=>import('../components/SocialHome/UserCard'));
@@ -20,4 +21,4 @@ function LandingHome():ReactElement {
     </>
   )
 }
-export default LandingHome;
+export default protectRoute(LandingHome) as (typeof LandingHome);

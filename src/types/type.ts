@@ -40,7 +40,7 @@ export type authReducerType = {
     errors:errorType[]|null,
     signupErrors:errorType[]|null,
     notifications:number,
-    messages:number
+    messages:{senderId:number}[]
 }
 
 export type responseLoginApi = baseResponseType&{
@@ -58,7 +58,7 @@ export type userType = {
     numberOfFriends:number,
     NumberOfPosts:number,
     notifications:number,
-    messages:number
+    messages:{senderId:number}[]
 }
 
 export type requestType = {

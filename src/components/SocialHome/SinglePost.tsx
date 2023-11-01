@@ -6,6 +6,7 @@ export const LoadingBoundary = lazy(()=>import('../../utils/LoadingBoundary'));
 export const PostCard = lazy(()=>import('./PostCard'));
 export const UserCard = lazy(()=>import('./UserCard'));
 import api from '../../utils/axiosModule';
+import protectRoute from '../../utils/protectRoute';
 
 function SinglePost():ReactElement {
   const {id} = useParams();
@@ -47,4 +48,4 @@ function SinglePost():ReactElement {
     </LoadingBoundary>
   )
 }
-export default SinglePost;
+export default protectRoute(SinglePost) as (typeof SinglePost);

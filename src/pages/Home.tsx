@@ -8,7 +8,7 @@ function Home():ReactElement{
 
   return (
     <contextOpen.Provider value={setOpenSignup}>
-        <section className='mx-auto relative p-10 w-full flex justify-between items-center container max-lg:flex-col min-h-screen max-lg:justify-start max-lg:p-2'>
+        <section className='mx-auto col-start-1 col-end-13 relative p-10 w-full flex justify-between items-center container max-lg:flex-col min-h-screen max-lg:justify-start max-lg:p-2'>
             <article className='box-border w-2/4 box p-3 max-lg:w-full'>
                 <h1 className='p-0 m-0 mb-4 text-primary text-6xl font-bold max-lg:text-center'>Media</h1>
                 <p className='w-3/4 m-0 p-0 ps-3 text-3xl font-[400] max-lg:text-xl max-lg:ps-0 max-md:w-full max-lg:mx-auto max-lg:text-center'>Connect with friends and the world around you on OmerMedia</p>

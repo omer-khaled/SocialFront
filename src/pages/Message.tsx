@@ -1,4 +1,5 @@
 import {ReactElement,lazy} from 'react'
+import protectRoute from '../utils/protectRoute';
 export const Chats = lazy(()=>import('../components/Message/Chats'));
 
 function Message():ReactElement {
@@ -8,4 +9,4 @@ function Message():ReactElement {
     </section>
   )
 }
-export default Message;
+export default protectRoute(Message) as (typeof Message);

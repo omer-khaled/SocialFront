@@ -8,7 +8,7 @@ import axios, { AxiosError } from 'axios';
 import api from '../../utils/axiosModule';
 import { useDispatch } from 'react-redux';
 import { disptachType } from '../../store/store';
-import { makeAuthTrue } from '../../store/authSlice';
+import { getUserInfo, makeAuthTrue } from '../../store/authSlice';
 
 export default function Login():ReactElement {
     const Navigate = useNavigate();
@@ -43,6 +43,7 @@ export default function Login():ReactElement {
                         dispatch(makeAuthTrue());
                         setAction(false);
                         api.defaults.headers.common['Authorization'] = "Bearer "+data.accessToken;
+                        dispatch(getUserInfo());
                         Navigate('/',{replace:true});
                     }
                }catch(e){

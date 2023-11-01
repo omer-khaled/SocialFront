@@ -1,28 +1,14 @@
-import {ReactElement, useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router-dom'
-import { disptachType, reducerType } from './store/store';
-import { refresh,getUserInfo } from './store/authSlice';
+import {ReactElement,lazy} from 'react'
+import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
+export const Navbar = lazy(()=>import('./components/Navbar'));
 function App() :ReactElement{
-  const Navigate = useNavigate();
-  const auth:boolean = useSelector<reducerType>(state=>state.auth.auth) as boolean;
-  const dispatch = useDispatch<disptachType>();
-  useEffect(()=>{
-    if(!auth){
-      dispatch(refresh());
-    }else{
-      dispatch(getUserInfo()).then(()=>{
-        const path = location.pathname;
-        if(path=='/'){
-          Navigate(`/home`,{replace:true});
-        }
-      });
-    }
-  },[auth,dispatch,Navigate]);
   return (
       <main className='box-border  relative w-full flex justify-start items-center min-h-screen flex-col'>
-        <Outlet/>
+        <Navbar/>
+        <section className='w-full container lg:w-[1000px] xl:w-[1256px] 2xl:w-[1400px] p-2 grow grid grid-cols-12 gap-4'>
+          <Outlet/>
+        </section>
         <ToastContainer 
           position="bottom-left"
           autoClose={500}

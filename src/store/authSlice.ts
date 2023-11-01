@@ -43,7 +43,7 @@ const initialState:authReducerType = {
     errors:null,
     signupErrors:null,
     notifications:0,
-    messages:0,
+    messages:[],
 }
 const authSlice =  createSlice({
     name:'auth',
@@ -62,14 +62,16 @@ const authSlice =  createSlice({
                 state.notifications -= 1;
             }
         },
-        addMessages:(state)=>{
+        addMessages:(state,action)=>{
             if(state.user){
-                state.messages += 1;
+                state.messages=[{senderId:action.payload},...(state.messages)];
             }
         },
-        removeMessages:(state)=>{
+        removeMessages:(state,action)=>{
             if(state.user){
-                state.messages -= 1;
+                state.messages=state.messages.filter((el:{senderId:number})=>{
+                    return el.senderId.toString()!==action.payload.toString();
+                });
             }
         },
         makeAuthTrue:(state)=>{

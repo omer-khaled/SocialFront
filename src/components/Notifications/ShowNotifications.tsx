@@ -1,4 +1,4 @@
-import {ReactElement,useState,useEffect,lazy,Suspense} from 'react'
+import {ReactElement,useState,useEffect,lazy} from 'react'
 export const ErrorBoundary = lazy(()=>import('../../utils/ErrorBoundary'));
 export const LoadingBoundary = lazy(()=>import('../../utils/LoadingBoundary'));
 export const SingleNotification = lazy(()=>import('./SingleNotification'));
@@ -7,7 +7,6 @@ import api from '../../utils/axiosModule';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { reducerType } from '../../store/store';
-import Loading from '../Loading';
 export default function ShowNotifications():ReactElement {
     const [notifcations,setNotifcations] = useState<notificationType[]|null>(null);
     const [error,setError] = useState<boolean>(false);
@@ -49,9 +48,7 @@ export default function ShowNotifications():ReactElement {
             {
                 (notifcations)?((notifcations.length===0)?<p className='text-white bg-primary text-center p-2 rounded-lg mt-2'>NO Notifications For Now</p>:<>{notifcations.map((el:notificationType)=>{
                     return(
-                        <Suspense fallback={<Loading />}>    
                             <SingleNotification key={(el.type)?`${el.id} type`:`${el.id} comment`} notification={el}/>
-                        </Suspense>
                     )
                 })}</>):<></>
             }

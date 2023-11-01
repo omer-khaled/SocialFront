@@ -7,7 +7,6 @@ import { store } from './store/store.ts';
 import {Provider} from 'react-redux'
 export const Loading = lazy(()=>import('./components/Loading.tsx'));
 export const Home = lazy(()=>import('./pages/Home.tsx'));
-export const SocialHome = lazy(()=>import('./pages/SocialHome.tsx'));
 export const LandingHome = lazy(()=>import('./pages/LandingHome.tsx'));
 export const Notification = lazy(()=>import('./pages/Notification.tsx'));
 export const UserProfile = lazy(()=>import('./components/SocialHome/UserProfile.tsx'));
@@ -20,37 +19,31 @@ const router = createBrowserRouter([
     children:[
       {
         index:true,
+        element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><LandingHome/></Suspense>
+      },
+      {
+        path:'login',
         element:<Suspense fallback={<Loading/>}><Home/></Suspense>
       },
       {
-        path:'home',
-        element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><SocialHome/></Suspense>,
-        children:[
-          {
-            index:true,
-            element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><LandingHome/></Suspense>
-          },
-          {
-            path:'notification',
-            element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><Notification/></Suspense>
-          },
-          {
-            path:'Message',
-            element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><Message/></Suspense>
-          },
-          {
-            path:'users/:id',
-            element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><UserProfile/></Suspense>
-          },
-          {
-            path:'posts/:id',
-            element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><SinglePost/></Suspense>
-          },
-          {
-            path:'users/:id',
-            element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><UserProfile/></Suspense>
-          }
-        ]
+        path:'notification',
+        element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><Notification/></Suspense>
+      },
+      {
+        path:'Message',
+        element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><Message/></Suspense>
+      },
+      {
+        path:'users/:id',
+        element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><UserProfile/></Suspense>
+      },
+      {
+        path:'posts/:id',
+        element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><SinglePost/></Suspense>
+      },
+      {
+        path:'users/:id',
+        element:<Suspense fallback={<section className='col-start-1 col-end-13'><Loading/></section>}><UserProfile/></Suspense>
       }
     ],
   }

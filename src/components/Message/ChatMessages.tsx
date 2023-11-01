@@ -4,7 +4,6 @@ import EmojiPicker from 'emoji-picker-react';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import api from '../../utils/axiosModule';
-import 'react-toastify/dist/ReactToastify.css';
 function ChatMessages({chat,friendId,myId}:{chat:messageType[],friendId:string,myId:string}):ReactElement {
     let prevDate = '';
     const [openEmogies,setopenEmogies] = useState<boolean>(false);
@@ -100,7 +99,7 @@ function ChatMessages({chat,friendId,myId}:{chat:messageType[],friendId:string,m
         <footer className='w-full p-2'>
                 <form className='flex' onSubmit={(e)=>{
                      e.preventDefault();
-                     if(contentError){
+                     if(contentError||content===''){
                          return setContentError('required feild or invalid content');
                      }
                      handleCreatePost(content,(file as File));
@@ -121,8 +120,9 @@ function ChatMessages({chat,friendId,myId}:{chat:messageType[],friendId:string,m
                         <div className='absolute bottom-12 left-1'>
                             {
                                 (openEmogies)&&<EmojiPicker onEmojiClick={(el)=>{
-                                    setContent((content)=>content+el.emoji);
-                                        if(!/^[\W\w]{3,}$/.test(content)){
+                                        const value = content+el.emoji;
+                                        setContent((content)=>content+el.emoji);
+                                        if(!/^[\W\w]{1,}$/.test(value)){
                                             setContentError('at least 3 charters');
                                         }else{
                                             setContentError(null);

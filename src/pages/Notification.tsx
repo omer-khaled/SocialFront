@@ -1,4 +1,5 @@
 import {ReactElement,lazy} from 'react'
+import protectRoute from '../utils/protectRoute';
 export const ShowNotifications = lazy(()=>import('../components/Notifications/ShowNotifications'));
 function Notification():ReactElement {
   return (
@@ -9,4 +10,4 @@ function Notification():ReactElement {
     </>
   )
 }
-export default Notification;
+export default protectRoute(Notification) as (typeof Notification);

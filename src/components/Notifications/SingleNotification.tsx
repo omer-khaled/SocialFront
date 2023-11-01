@@ -29,7 +29,7 @@ export default function SingleNotification({notification}:{notification:notifica
   const [seened,setSeened] = useState<boolean>(notification.seen);
   return (
     <div onClick={()=>{
-      Navigate(`/home/posts/${notification.postId}`);
+      Navigate(`/posts/${notification.postId}`);
     }} className='w-full cursor-pointer flex justify-start items-start flex-col'>
         <div  className={`px-3 py-2 w-full flex justify-start items-start ${(seened)?"bg-white":"bg-blue-300"} flex-col cursor-pointer`} onClick={async()=>{
             try{

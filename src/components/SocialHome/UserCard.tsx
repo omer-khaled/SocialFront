@@ -12,7 +12,7 @@ const {auth,user}:authReducerType = (useSelector<reducerType>(state=>state.auth)
         <article className='w-full p-2 bg-white rounded-md'>
             {(user)&&<>
                 <img onClick={()=>{
-                    Navigate(`/home/users/${user.id}`);
+                    Navigate(`/users/${user.id}`);
                 }} className='rounded-full cursor-pointer w-[70px] h-[70px] object-cover mx-auto' src={import.meta.env.VITE_BASU_URL_API+'/images/'+user?.image} alt="personalImage" />
                 {<h1 className='mt-2 text-center text-lg truncate font-bold'>{user.name}</h1>}
                 <hr className='my-2 border-slate-300'/>

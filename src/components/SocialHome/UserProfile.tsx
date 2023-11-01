@@ -1,10 +1,11 @@
 import { ReactElement,lazy } from 'react'
 import { useParams } from 'react-router-dom'
+import protectRoute from '../../utils/protectRoute';
 export const UserProfileCard = lazy(()=>import('../profile/UserProfileCard'));
 export const Freindes = lazy(()=>import('./Freindes'));
 export const ProfilePosts = lazy(()=>import('../profile/ProfilePosts'));
 
-export default function UserProfile():ReactElement {
+function UserProfile():ReactElement {
     const {id} = useParams();
   return (
       <>
@@ -20,3 +21,4 @@ export default function UserProfile():ReactElement {
     </>
   )
 }
+export default protectRoute(UserProfile) as (typeof UserProfile);
