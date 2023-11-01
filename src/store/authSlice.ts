@@ -13,6 +13,17 @@ const refresh = createAsyncThunk('auth/refresh',async(_,{rejectWithValue})=>{
         return rejectWithValue((e as AxiosError).response?.data);
     }
 });
+const getUserInfo = createAsyncThunk('auth/getUserInfo',async(_,{rejectWithValue})=>{
+    try{
+        const url = baseUrl+'/user/getUserInfo';
+        const {data}:{data:responsegetUserInfoApi} =await api.get(url,{
+            withCredentials:true
+        });
+        return data;
+    }catch(e){
+        return rejectWithValue((e as AxiosError).response?.data);
+    }
+});
 const signup = createAsyncThunk('auth/signup',async({email,password,name,image}:{email:string,password:string,name:string,image:File},{rejectWithValue})=>{
     try{
         const url = baseUrl+'/auth/signup';
@@ -95,6 +106,17 @@ const authSlice =  createSlice({
                 state.messages=action.payload.user.messages
             }
         });
+        // ---------------getUserInfo-------------
+        builder.addCase(getUserInfo.rejected,(state)=>{
+            state.user=null;
+        });
+        builder.addCase(getUserInfo.fulfilled,(state,action)=>{
+            if(action.payload.user&&action.payload.status){
+                state.user = action.payload.user;
+                state.notifications=action.payload.user.notifications
+                state.messages=action.payload.user.messages
+            }
+        });
         // ------------------SignUp------------------
         builder.addCase(signup.pending,(state)=>{
             state.auth=null;
@@ -113,4 +135,4 @@ const authSlice =  createSlice({
 });
 const {reducer:authReducer,actions:{addNotification,removeNotification,addMessages,removeMessages,makeAuthTrue,makeAuthFalse}} = authSlice;
 
-export {authReducer,refresh,signup,addNotification,removeNotification,addMessages,removeMessages,makeAuthTrue,makeAuthFalse};
+export {authReducer,refresh,getUserInfo,signup,addNotification,removeNotification,addMessages,removeMessages,makeAuthTrue,makeAuthFalse};
