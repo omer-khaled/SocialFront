@@ -2,12 +2,12 @@ import {ReactElement,useState,useEffect,useMemo, useCallback,lazy} from 'react'
 import { baseResponseType, baseUrl, likeType, responsegetLikesApi } from '../../types/type';
 export const ErrorBoundary = lazy(()=>import('../../utils/ErrorBoundary'));
 export const LoadingBoundary = lazy(()=>import('../../utils/LoadingBoundary'));
-import like from '../../assets/reactions/like.ico'
-import love from '../../assets/reactions/love.ico'
-import haha from '../../assets/reactions/haha.ico'
-import sad from '../../assets/reactions/sad.ico'
-import wow from '../../assets/reactions/wow.ico'
-import angry from '../../assets/reactions/angry.ico'
+import like from '../../assets/reactions/like.webp'
+import love from '../../assets/reactions/love.webp'
+import haha from '../../assets/reactions/haha.webp'
+import sad from '../../assets/reactions/sad.webp'
+import wow from '../../assets/reactions/wow.webp'
+import angry from '../../assets/reactions/angry.webp'
 import { io } from 'socket.io-client';
 import api from '../../utils/axiosModule';
 import { toast } from 'react-toastify';
